@@ -1,0 +1,5 @@
+name: Lorem Ipsum Generator block
+type: module
+description: Create a block to generate lorem ipsum pages
+package: Development
+core: 8.x
