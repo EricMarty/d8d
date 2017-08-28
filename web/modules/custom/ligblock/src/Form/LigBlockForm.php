@@ -6,11 +6,11 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Implements LoremIpsumForm controller.
+ * Implements LigBlockForm controller.
  *
  * Extend FormBase to go generate lorem ipsum page.
  */
-class LoremIpsumForm extends FormBase {
+class LigBlockForm extends FormBase {
   /**
    * Build the lorem ipsum form.
    *
@@ -58,6 +58,22 @@ class LoremIpsumForm extends FormBase {
   /**
    * Implements form validation.
    *
-   *
+   * @param array $form
+   *  The render array of the currently built form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *  Object describing the current state of the form.
    */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    // do something
+    $title = $form_state->getValue('title');
+  }
+
+  /**
+   * Implements a form submit handler
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    // do something
+    $title = $form_state->getValue('title');
+  }
+
 }

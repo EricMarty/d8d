@@ -51,8 +51,9 @@ class LigBlock extends BlockBase {
    * {@inheritdoc)
    */
   public function build() {
-    return [
+    /*return [
       '#markup' => $this->configuration['ligblock_example_string'],
-    ];
+    ];*/
+    return \Drupal::formBuilder()->getForm('\Drupal\ligblock\Form\LigBlockForm');
   }
 }
