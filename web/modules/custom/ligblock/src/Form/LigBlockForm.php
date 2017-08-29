@@ -24,10 +24,19 @@ class LigBlockForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
-    $form['title'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Title'),
-      '#description' => $this->t('Enter a good title.'),
+    $form['paragraphs'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Paragraphs'),
+      '#min' => 1,
+      '#default_value' => 1,
+      '#required' => TRUE,
+    ];
+
+    $form['phrases'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Phrases'),
+      '#min' => 1,
+      '#default_value' => 2,
       '#required' => TRUE,
     ];
 
@@ -39,7 +48,7 @@ class LigBlockForm extends FormBase {
     // Add a submit button that handles the submission of the form.
     $form['actions']['submit'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Submit'),
+      '#value' => $this->t('Generate'),
     ];
 
     return $form;
@@ -65,7 +74,17 @@ class LigBlockForm extends FormBase {
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     // do something
-    $title = $form_state->getValue('title');
+    $paragraphs = $form_state->getValue('paragraphs');
+    $phrases = $form_state->getValue('phrases');
+
+    if ($paragraphs < 1) {
+      // Set an error for the form element paragraphs
+      $form_state->setErrorByName('paragraphs', $this->t('Must be greater than 0.'));
+    }
+    if ($phrases < 1) {
+      // Set an error for the form element phrases
+      $form_state->setErrorByName('phrases', $this->t('Must be greater than 0.'));
+    }
   }
 
   /**
@@ -73,7 +92,7 @@ class LigBlockForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // do something
-    $title = $form_state->getValue('title');
+    // $form_state->setRedirect();
   }
 
 }
