@@ -91,8 +91,11 @@ class LigBlockForm extends FormBase {
    * Implements a form submit handler
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    // do something
-    // $form_state->setRedirect();
+    $paragraphs = $form_state->getValue('paragraphs');
+    $phrases = $form_state->getValue('phrases');
+
+    $form_state->setRedirect('loremipsum.generate',
+      ['paragraphs' => $paragraphs, 'phrases' => $phrases]);
   }
 
 }
