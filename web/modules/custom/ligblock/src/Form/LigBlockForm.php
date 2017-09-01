@@ -2,13 +2,13 @@
 
 namespace Drupal\ligblock\Form;
 
-use Drupal\Core\Form\ConfigFormBase;
+use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Configure lorem ipsum page to generate
  */
-class LigBlockForm extends ConfigFormBase {
+class LigBlockForm extends FormBase {
 
   /**
    * {@inheritdoc}
@@ -28,21 +28,29 @@ class LigBlockForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    // Get settings
-    $config = $this->config('ligblock.settings');
+    // Set path based on if we are generating lorem ipsum text
+    $current_path = \Drupal::service('path.current')->getPath();
+    $path_args = explode('/', $current_path);
+    //\Drupal::logger('ligblock')->notice(print_r($path_args, TRUE));
+    $default_value = ['paragraphs' => 1, 'phrases' => 1];
+    if ($path_args[1] === 'loremipsum') {
+      $default_value['paragraphs'] = $path_args[2];
+      $default_value['phrases'] = $path_args[3];
+    }
+
     // Add form inputs
     $form['paragraphs'] = [
       '#type' => 'number',
       '#title' => $this->t('Paragraphs'),
       '#min' => 1,
-      '#default_value' => $config->get('ligblock.paragraphs'),
+      '#default_value' => $default_value['paragraphs'], //$config->get('ligblock.paragraphs'),
       '#required' => TRUE,
     ];
     $form['phrases'] = [
       '#type' => 'number',
       '#title' => $this->t('Phrases'),
       '#min' => 1,
-      '#default_value' => $config->get('ligblock.phrases'),
+      '#default_value' => $default_value['phrases'], //$config->get('ligblock.phrases'),
       '#required' => TRUE,
     ];
     // Convention to add actions and style form correctly
@@ -55,7 +63,7 @@ class LigBlockForm extends ConfigFormBase {
       '#value' => $this->t('Generate'),
     ];
 
-    return parent::buildForm($form, $form_state);
+    return $form; //parent::buildForm($form, $form_state);
   }
 
   /**
@@ -80,10 +88,10 @@ class LigBlockForm extends ConfigFormBase {
     $paragraphs = $form_state->getValue('paragraphs');
     $phrases = $form_state->getValue('phrases');
     // Update config settings to most recent submission
-    $this->config('ligblock.settings')
-      ->set('ligblock.paragraphs', $paragraphs)
-      ->set('ligblock.phrases', $phrases)
-      ->save();
+    //$this->config('ligblock.settings')
+    //  ->set('ligblock.paragraphs', $paragraphs)
+    //  ->set('ligblock.phrases', $phrases)
+    //  ->save();
     // Redirect to page using submitted values to generate lorem ipsum
     $form_state->setRedirect('loremipsum.generate',
       ['paragraphs' => $paragraphs, 'phrases' => $phrases]);

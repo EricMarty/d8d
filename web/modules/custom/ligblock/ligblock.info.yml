@@ -1,4 +1,4 @@
-name: Lorem Ipsum Generator block
+name: LigBlock Lorem Ipsum Generate
 type: module
 description: Create a block to generate lorem ipsum pages
 package: Development
