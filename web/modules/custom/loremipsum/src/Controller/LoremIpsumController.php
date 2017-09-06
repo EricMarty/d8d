@@ -38,7 +38,7 @@ class LoremIpsumController {
 
     $element['#title'] = Html::escape($page_title);
 
-    $element['#theme'] = 'loremipsum';
+    $element['#theme'] = 'catboy';
 
     return $element;
   }
